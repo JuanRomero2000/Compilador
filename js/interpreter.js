@@ -221,10 +221,10 @@ function step(){
 					jumpTo(0);
 				else
 					leaveBlock();
-			break;case "FOR":
+			break;case "PARA":
 				//get variable
 				var variable;
-				assert(variable=evaluate(now.variable,"number").ref,"FOR loop needs a variable.");
+				assert(variable=evaluate(now.variable,"number").ref,"PARA loop needs a variable.");
 				//increment variable
 				if(now.step){
 					variable.value.value+=evaluate(now.step,"number").value;
@@ -251,7 +251,7 @@ function step(){
 			break;case "FUNC":
 				leaveBlock();
 				return false;
-			break;case "IF":case "ELSE":case "ELSEIF":case "CASE":case "SWITCH":
+			break;case "SI":case "SINO":case "SNSI":case "CASE":case "SWITCH":
 				leaveBlock();
 			break;default:
 				assert(false,"Internal error: '"+now.type+"' is not a valid block type.");
@@ -270,9 +270,9 @@ function step(){
 			enterBlock();
 		break;case "REPEAT":case "FUNC":
 			enterBlock();
-		break;case "FOR":
+		break;case "PARA":
 			var variable;
-			assert(variable=evaluate(now.variable,"number").ref,"FOR loop needs a variable.");
+			assert(variable=evaluate(now.variable,"number").ref,"PARA loop needs a variable.");
 			if(now.start)
 				variable.value.value=evaluate(now.start,"number").value;
 			else
@@ -310,14 +310,14 @@ function step(){
 			while(1){
 				var x=current(block);
 				if(x.type==="main"){
-					assert(false,"CONTINUE must be used inside a FOR, WHILE, REPEAT, or DO loop");
-				}else if(x.type==="FOR"||x.type==="WHILE"||x.type==="REPEAT"||x.type==="DO"){
+					assert(false,"CONTINUE must be used inside a PARA, WHILE, REPEAT, or DO loop");
+				}else if(x.type==="PARA"||x.type==="WHILE"||x.type==="REPEAT"||x.type==="DO"){
 					jumpTo(Infinity);
 					break;
 				}
 				leaveBlock();
 			}
-		break;case "PRINT":
+		break;case "IMPRIMIR":
 			var printString="";
 			for(var i=0;i<now.value.length;i++){
 				var x=evaluate(now.value[i]);
@@ -327,16 +327,16 @@ function step(){
 			print(printString+"\n");
 		break;case "expression":
 			evaluate(now.value);
-		break;case "IF":
+		break;case "SI":
 			if(evaluate(now.condition).truthy()){
 				ifs[ifs.length-1]=true;
 				enterBlock();
 			}else
 				ifs[ifs.length-1]=false;
-		break;case "ELSE":
+		break;case "SINO":
 			if(!ifs[ifs.length-1])
 				enterBlock();
-		break;case "ELSEIF":
+		break;case "SNSI":
 			if(!ifs[ifs.length-1]){
 				if(evaluate(now.condition).truthy()){
 					ifs[ifs.length-1]=true;

@@ -1,6 +1,6 @@
 //list of keywords
 //does not include OPERATORS or CONSTANTS or fake keywords TO/STEP
-var KEYWORDS=["SWITCH","CASE","AS","ENDSWITCH", "EXIT","END", "IF","THEN","ELSE","ELSEIF","ENDIF", "FUNC","RETURN","ENDFUNC", "FOR","NEXT", "REPEAT","UNTIL", "CONTINUE","PRINT", "WHILE","WEND", "DO","LOOP", "REF", "TO", "STEP","IN"];
+var KEYWORDS=["SWITCH","CASE","AS","ENDSWITCH", "EXIT","END", "SI","ENTONCES","SINO","SNSI","FINSI", "FUNC","RETURN","ENDFUNC", "PARA","FPARA", "REPEAT","UNTIL", "CONTINUE","IMPRIMIR", "WHILE","WEND", "DO","LOOP", "REF", "HASTA", "DE","IN"];
 //CHECK <condition>,"error"
 var constants={"#PI":Math.PI,"#VERSION":1.500};
 //version system:
@@ -200,7 +200,7 @@ function tokenize(code){
 		//print shortcut
 		break;case '?':
 			next();
-			return push("PRINT");
+			return push("IMPRIMIR");
 		//other
 		break;default:
 			next();

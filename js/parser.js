@@ -21,12 +21,12 @@ function parse(/*function*/nextToken){
 		REPEAT:"UNTIL",
 		WHILE:"WEND",
 		DO:"LOOP",
-		IF:"ENDIF",
-		ELSEIF:"ENDIF",
-		ELSE:"ENDIF",
+		SI:"FINSI",
+		SNSI:"FINSI",
+		SINO:"FINSI",
 		FUNC:"ENDFUNC",
-		FOR:"NEXT",
-		FORIN:"NEXT"
+		PARA:"FPARA",
+		FORIN:"FPARA"
 	}
 	
 	//enter code block
@@ -54,9 +54,9 @@ function parse(/*function*/nextToken){
 				endBlock();
 			break;case "REPEAT":
 				assert(last(currentBlocks).condition=readExpression(),expected("condition for UNTIL",word));
-			break;case "IF": case "ELSEIF": case "ELSE":
+			break;case "SI": case "SNSI": case "SINO":
 				ifThisLine=false;
-			break;case "FOR": case "FORIN":
+			break;case "PARA": case "FORIN":
 				readExpression();
 			break;case "FUNC":
 				var block=currentBlocks.pop();
@@ -97,7 +97,7 @@ function parse(/*function*/nextToken){
 		switch(type){
 			case "END":
 				autoEndBlock();
-			break;case "ENDSWITCH":case "UNTIL":case "ENDIF":case "NEXT":case "WEND":case "ENDFUNC":case "LOOP":
+			break;case "ENDSWITCH":case "UNTIL":case "FINSI":case "FPARA":case "WEND":case "ENDFUNC":case "LOOP":
 				autoEndBlock(type);
 			//SWITCH/CASE/ENDSWITCH
 			break;case "SWITCH":
@@ -121,22 +121,22 @@ function parse(/*function*/nextToken){
 				current.type="REPEAT";
 				startBlock();
 			//IF/ELSEIF/ELSE
-			break;case "IF":
-				current.type="IF";
-				assert(current.condition=readExpression(),expected("condition for IF",word));
-				assert(readToken("THEN"),expected("`THEN` after IF",word));
+			break;case "SI":
+				current.type="SI";
+				assert(current.condition=readExpression(),expected("condition for SI",word));
+				assert(readToken("ENTONCES"),expected("`ENTONCES` after SI",word));
 				startBlock();
 				ifThisLine=true;
 				codeAfterThen=false;
-			break;case "ELSEIF":
+			break;case "SNSI":
 				var currentType=last(currentBlocks).type;
-				assert(currentType==="IF"||currentType==="ELSEIF","ELSEIF without IF");
+				assert(currentType==="SI"||currentType==="SNSI","SNSI without SI");
 				endBlock();
-				current.type="ELSEIF";
+				current.type="SNSI";
 				current.condition=readExpression();
-				assert(readToken("THEN"),expected("`THEN` after ELSEIF",word));
+				assert(readToken("ENTONCES"),expected("`ENTONCES` after SNSI",word));
 				startBlock();
-			break;case "ELSE":
+			break;case "SINO":
 				var currentType=last(currentBlocks).type;
 				//SWITCH
 				if(currentType==="CASE"){
@@ -147,34 +147,34 @@ function parse(/*function*/nextToken){
 					startBlock();
 				//IF
 				}else{
-					assert(currentType==="IF"||currentType==="ELSEIF","ELSE without IF.");
+					assert(currentType==="SI"||currentType==="SNSI","SINO without SI.");
 					//end previous IF/ELSEIF section
 					endBlock();
 					//start ELSE section
-					current.type="ELSE";
+					current.type="SINO";
 					startBlock();
 				}
 			//FOR
-			break;case "FOR":
+			break;case "PARA":
 				//read variable
 				noEquals=true;
-				assert(current.variable=readExpression(),expected("Variable after FOR",word));
+				assert(current.variable=readExpression(),expected("Variable after PARA",word));
 				noEquals=false;
-				current.type="FOR";
+				current.type="PARA";
 				if(readToken("equal")){
 					//read start
 					noTo=true;
 					current.start=readExpression();
 					noTo=false;
-					if(!readToken("TO")){
-						assert(readToken("UNTIL"),expected("`TO` in FOR",word));
+					if(!readToken("HASTA")){
+						assert(readToken("UNTIL"),expected("`HASTA` in PARA",word));
 						current.open=true;
 					}
 					current.end=readExpression();
-					if(readToken("STEP"))
+					if(readToken("DE"))
 						current.step=readExpression();
 				}else{
-					assert(readToken("IN"),expected("`=` or `IN` in FOR",word));
+					assert(readToken("IN"),expected("`=` or `IN` in PARA",word));
 					current.array=readExpression();
 				}
 				startBlock();
@@ -194,7 +194,7 @@ function parse(/*function*/nextToken){
 					current.exitType="FUNC";
 					current.exitName=word;
 				}else{
-					assert(type==="FOR"||type==="IF"||type==="SWITCH"||type==="WHILE"||type==="REPEAT"||type==="DO"||type==="FUNC","Invalid EXIT type");
+					assert(type==="PARA"||type==="SI"||type==="SWITCH"||type==="WHILE"||type==="REPEAT"||type==="DO"||type==="FUNC","Invalid EXIT type");
 					current.exitType=type;
 				}
 				//var found=0;
@@ -227,8 +227,8 @@ function parse(/*function*/nextToken){
 			break;case "RETURN":
 				current.type="RETURN";
 				current.value=readExpression();
-			break;case "PRINT":
-				current.type="PRINT";
+			break;case "IMPRIMIR":
+				current.type="IMPRIMIR";
 				current.value=readList(readExpression);
 			//comment
 			break;case "comment":case ";":
@@ -238,7 +238,7 @@ function parse(/*function*/nextToken){
 					ifThisLine=false;
 					if(codeAfterThen){
 						endBlock();
-						console.log("ended single line IF");
+						console.log("ended single line SI");
 					}
 				}
 			break;default:
@@ -442,14 +442,14 @@ function parse(/*function*/nextToken){
 			else
 				break;
 		//TO can be normal operator or ternary operator with STEP.
-		if(!noTo&&readToken("TO")){
+		if(!noTo&&readToken("HASTA")){
 			var name=word;
 			var x={type:"operator",name:word,args:2};
 			pushToken(x);
 			assert(readExpression2(),expectedMessage("second argument for operator `"+name+"`",word));
-			if(readToken("STEP")){
+			if(readToken("DE")){
 				x.args=3;
-				assert(readExpression2(),"Expected STEP value, got `"+word+"` instead.");
+				assert(readExpression2(),"Expected DE value, got `"+word+"` instead.");
 			}
 		//normal 2 argument operator.
 		}else if(readToken("operator")||readToken("maybeUnary")||(!noEquals&&readToken("equal"))){
@@ -499,7 +499,7 @@ function parse(/*function*/nextToken){
 		ifThisLine=false;
 		if(codeAfterThen){
 			endBlock();
-			console.log("ended single line IF");
+			console.log("ended single line SI");
 		}
 	}
 	

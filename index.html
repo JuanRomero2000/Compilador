@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+	<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 	<head>
 		<meta property="og:site_name" content="12Me21" />
 		<meta property="og:title" content="12-BASIC" />
@@ -29,5 +30,16 @@ NEXT</textarea>
 		<textarea id="$input" rows="2" cols="0" spellcheck="false" style="display: none;"></textarea><br>
 		Output:<br>
 		<pre id="$console" rows="30" cols="80" readonly="ylnodaer" spellcheck="false"></pre>
+
+		<div class="loader-wrapper">
+			<span class="loader"><span class="loader-inner"></span></span>
+		  </div>
+		
 	</body>
 </html>
+
+<script>
+	$(window).on("load",function(){
+	  $(".loader-wrapper").fadeOut("slow");
+	});
+</script>
