@@ -1,0 +1,16 @@
+* {
+	color:black;
+	background-color:white;
+	border-color: #444;
+}
+* {
+    tab-size: 3;
+    -moz-tab-size: 3;
+    moz-tab-size: 3;
+}
+
+pre#\$console {
+    resize: both;
+    border: 1px solid gray;
+    overflow: auto;
+}

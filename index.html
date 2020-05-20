@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta property="og:site_name" content="12Me21" />
+		<meta property="og:title" content="12-BASIC" />
+		<meta name="theme-color" content="#00AAAA">
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="css/Style.css" />
+		<script src="js/value.js"></script>
+		<script src="js/simplify.js"></script>
+		<script src="js/variable.js"></script>
+		<script src="js/output.js"></script>
+		<script src="js/functions.js"></script>
+		<script src="js/operations.js"></script>
+		<script src="js/tokenizer.js"></script>
+		<script src="js/parser.js"></script>
+		<script src="js/interpreter.js"></script>
+	</head>
+	<body>
+		<textarea id="$code" cols="80" onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0,s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+FOR I=1 TO 10
+ PRINT I
+NEXT</textarea>
+		<br>
+		<button id="$button2" onclick="clearScreen();var x=parse(tokenize($code.value));if(x.constructor===String)$console.textContent='ERROR: '+x;else run(x)">Run</button>
+		<button id="$button3" onclick="stop('Break')">Stop</button>
+		<button id="$button5" onclick="clearScreen()">Clear console</button>
+		<hr>
+		Input:<br>
+		<textarea id="$input" rows="2" cols="80" spellcheck="false"></textarea><br>
+		Output:<br>
+		<pre id="$console" rows="30" cols="80" readonly="ylnodaer" spellcheck="false"></pre>
+	</body>
+</html>
