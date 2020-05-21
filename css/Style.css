@@ -1,13 +1,12 @@
-* {
-	color:black;
-	background-color:white;
-	border-color: #444;
-}
-* {
-    tab-size: 3;
-    -moz-tab-size: 3;
-    moz-tab-size: 3;
-}
+
+header {
+    padding: 156px 0 100px;
+  }
+  
+  section {
+    padding: 100px 0;
+  }
+  
 
 pre#\$console {
     resize: both;
@@ -15,7 +14,7 @@ pre#\$console {
     overflow: auto;
 }
 
-
+/*Animación  Splash Screen*/
 body {
     margin: 0;
     padding: 0;
