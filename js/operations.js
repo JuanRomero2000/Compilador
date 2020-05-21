@@ -16,7 +16,7 @@ var builtins={
 	"<<": {2:leftShift,precedence:10},
 	">>": {2:rightShift,precedence:10},
 	
-	"TO": {2:range,3:rangeStep,precedence:9},
+	"HASTA": {2:range,3:rangeStep,precedence:9},
 	"UNTIL": {2:openRange,precedence:9},
 	
 	">":  {2:greaterThan,precedence:8},

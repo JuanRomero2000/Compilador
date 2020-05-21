@@ -1,0 +1,41 @@
+IF      ==> SI 
+THEN    ==> ENTONCES
+ENDIF   ==> FINSI
+PRINT   ==> IMPRIMIR
+ELSE    ==> SINO
+ELSEIF  ==> SNSI
+
+////////////////////////
+Ejemplo de estructura con los anteriores
+
+NUMBER a
+NUMBER Z
+NUMBER b
+a=6
+b=5
+Z=6
+SI a==b ENTONCES
+
+IMPRIMIR "hOLA"
+SNSI a==z ENTONCES
+IMPRIMIR "no son iguales"
+
+FINSI
+///////////////////////////
+
+**CICLOS**
+FOR    ==>PARA
+TO     ==>HASTA
+STEP   ==>DE
+NEXT   ==>FPARA
+
+///////////////////////
+Ejemplo de estructura con los anteriores
+
+NUMBER t
+PARA t=1 HASTA 10 DE 2
+    IMPRIMIR "Hola"
+FPARA 
+
+////////////////////////
+

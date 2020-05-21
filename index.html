@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<html>
+	<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <html lang="es">
 	<head>
 		<meta charset="utf-8" />
@@ -24,6 +26,9 @@
 	</head>
 
 	<body id="page-top">
+		<div class="loader-wrapper">
+			<span class="loader"><span class="loader-inner"></span></span>
+		  </div>
 		<!-- Navigation -->
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
 			<div class="container">
@@ -132,3 +137,9 @@ NEXT</textarea
 		<script src="js/scrolling-nav.js"></script>
 	</body>
 </html>
+
+<script>
+	$(window).on("load",function(){
+	  $(".loader-wrapper").fadeOut("slow");
+	});
+</script>
