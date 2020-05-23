@@ -32,54 +32,56 @@
 		<!-- Navigation -->
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
 			<div class="container">
-				<a class="navbar-brand js-scroll-trigger" href="#page-top">Start Bootstrap</a>
-				<button
-					class="navbar-toggler"
-					type="button"
-					data-toggle="collapse"
-					data-target="#navbarResponsive"
-					aria-controls="navbarResponsive"
-					aria-expanded="false"
-					aria-label="Toggle navigation"> 
-					<span class="navbar-toggler-icon"></span>
-				</button>
+				<a class="navbar-brand js-scroll-trigger" href="#page-top"><img id="LPes" src="img/LPes.png" alt="" ></a>
+				<h3 id="h3" class="navbar-brand js-scroll-trigger">Proyecto unimag</h3>
+				<img id="logo" src="img/1.png" alt="" >
 			</div>
 		</nav>
 
 		<header class="bg-primary text-white">
 			<div class="container text-center">
-				<h1>Welcome to Scrolling Nav</h1>
+				<h1>Bienvenido, programa con LPes</h1>
 				<p class="lead">
-					A landing page template freshly redesigned for Bootstrap 4
+					Un lenguaje creado para ti
 				</p>
 			</div>
 		</header>
 
 		<section id="about">
 			<div class="container text-center">
+				<br />
+				Pruebalo aquí:<br />
 				<textarea
 					id="$code"
 					cols="80"
-					rows="4"
+					rows="6"
 					onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0,s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"
 					autocomplete="off"
 					autocorrect="off"
 					autocapitalize="off"
 					spellcheck="false"
 				>
-FOR I=1 TO 10
-    PRINT I
-NEXT</textarea
+para i=1 hasta 10
+    imprimir I
+fpara</textarea
 				>
 				<br />
 				<button
-					id="$button2"
-					onclick="clearScreen();var x=parse(tokenize($code.value));if(x.constructor===String)$console.textContent='ERROR: '+x;else run(x)"
+					id="$button2" 
+					class="btn btn-secondary"
+					onclick="clearScreen();
+					var x=parse(tokenize($code.value));
+					if(x.constructor===String)$console.textContent='ERROR: '+x;else run(x)"
 				>
-					Ejecutar
+				Ejecutar
 				</button>
-				<button id="$button3" onclick="stop('Break')">Detener</button>
-				<button id="$button5" onclick="clearScreen()">Limpiar consola</button>
+				<button 
+					id="$button3"  
+					class="btn btn-secondary" 
+					onclick="stop('Break')">
+				Detener
+				</button>
+				<button id="$button5"  class="btn btn-secondary" onclick="clearScreen()">Limpiar consola</button>
 				<hr />
 				<textarea
 					id="$input"
@@ -100,23 +102,40 @@ NEXT</textarea
 			</div>
 		</section>
 
-		<section id="información" class="bg-light">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-8 mx-auto">
-						<h2>Services we offer</h2>
-						<p class="lead">
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-							Aut optio velit inventore, expedita quo laboriosam possimus
-							ea consequatur vitae, doloribus consequuntur ex. Nemo
-							assumenda laborum vel, labore ut velit dignissimos.
-						</p>
-					</div>
-				</div>
-			</div>
-		</section>
-
 		<!-- Footer -->
+		<footer id="footer1" class="footer text-center bg-secondary text-white">
+			<div class="container">
+			  <div class="row">
+				<!-- Footer Location-->
+				<div class="col-lg-4 mb-5 mb-lg-0">
+				  <h4 class="text-uppercase mb-4">SOBRE EL PROYECTO</h4>
+				  <p class="lead mb-0">
+					Lenguaje de Programación en Español Simple (LPes) es un lenguaje que
+					nació como un proyecto universitario y que fue pensado para todos y en 
+					especial para las personas hispanohablantes por lo cual es muy sencillo 
+					y usa palabras en español.
+				  </p>
+				</div>
+	
+				<div class="col-lg-4 mb-5 mb-lg-0">
+				  <h4 class="text-uppercase mb-4">Campus</h4>
+				  <a href="https://www.unimagdalena.edu.co/"
+					><img id="campus" src="img/tree.png" alt="" class="img_pie2 mt-3"
+				  /></a>
+				  <p class="lead mt-4">Universidad del Magdalena</p>
+				</div>
+		
+				<div class="col-lg-4">
+				  <h4 class="text-uppercase mb-4">AUTORES</h4>
+				  <p class="lead mb-0 "></p>
+				  <p class="lead mb-0 ">Santiago Mendoza</p>
+				  <p class="lead mb-0 mt-3">Juan Romero</p>
+				  <p class="lead mb-0 mt-3">Cristian Perez</p>
+				  <p class="lead mb-0 mt-3">Cristian Mercado</p>
+				</div>
+			  </div>
+			</div>
+		</footer>
 		<footer class="py-5 bg-dark">
 			<div class="container">
 				<p class="m-0 text-center text-white">
