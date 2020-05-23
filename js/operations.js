@@ -17,7 +17,7 @@ var builtins={
 	">>": {2:rightShift,precedence:10},
 	
 	"HASTA": {2:range,3:rangeStep,precedence:9},
-	"UNTIL": {2:openRange,precedence:9},
+	"SCUMPLE": {2:openRange,precedence:9},
 	
 	">":  {2:greaterThan,precedence:8},
 	"<":  {2:lessThan,precedence:8},
@@ -117,7 +117,7 @@ function openRange(a,b){
 function step(a,b){
 	a.expect("array");
 	b.expect("number");
-	assert(b.value>0,"step value must be at least greater than 0");
+	assert(b.value>0,"el valor del paso debe ser al menos mayor que 0");
 	var array=[];
 	for(i=0;i<a.value.length;i+=b.value)
 		array.push(a.value[Math.floor(i)]);
@@ -131,7 +131,7 @@ function assign(a,b){
 	}else{
 		a.expect("array");
 		b.expect("array");
-		assert(b.length===a.length,"arrays different length");
+		assert(b.length===a.length,"matrices de diferente longitud");
 		for(var i=0;i<a.value.length;i++){
 			//assert(a.value[i].ref,"During variable list assignment, expected variable but got "+a.value[i].type+". Perhaps you didn't mean to use =?");
 			assign(a.value[i],b.value[i]);
@@ -170,10 +170,10 @@ function multiply(a,b){
 		case "number":
 			return new Value("number",a.value*b.value);
 		break;case "string":
-			assert(b.value>=0,"negative repeat value");
+			assert(b.value>=0,"valor negativo de repeticion");
 			return new Value("string",a.value.repeat(b.value));
 		break;case "array":
-			assert(b.value>=0,"negative repeat value");
+			assert(b.value>=0,"valor negativo de repeticion");
 			var result=[];
 			for(var i=0;i<b.value;i++)
 				result=result.concat(a.copy().value); //yeah copy that shit
@@ -184,7 +184,7 @@ function multiply(a,b){
 function divide(a,b){
 	a.expect("number");
 	b.expect("number");
-	assert(b.value!==0,"Tried to divide '"+a.value+"' by zero.");
+	assert(b.value!==0,"Intente dividir '"+a.value+"' por cero.");
 	return new Value("number",a.value/b.value);
 }
 
@@ -192,7 +192,7 @@ function divide(a,b){
 function div(a,b){
 	a.expect("number");
 	b.expect("number");
-	assert(b.value!==0,"Tried to divide '"+a.value+"' by zero.");
+	assert(b.value!==0,"Intente dividir '"+a.value+"' por cero.");
 	return new Value("number",Math.floor(a.value/b.value));
 }
 
@@ -200,7 +200,7 @@ function div(a,b){
 function mod(a,b){
 	a.expect("number");
 	a.expect("number");
-	assert(b.value!==0,"Tried to divide '"+a.value+"' by zero.");
+	assert(b.value!==0,"Intente dividir '"+a.value+"' por cero.");
 	return new Value("number",a.value-Math.floor(a.value/b.value)*b.value);
 }
 

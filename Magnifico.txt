@@ -24,18 +24,42 @@ FINSI
 ///////////////////////////
 
 **CICLOS**
-FOR    ==>PARA
+FOR    ==>PARA //DESDE
 TO     ==>HASTA
 STEP   ==>DE
 NEXT   ==>FPARA
 
+WHILE  ==>MIENTRAS
+WEND   ==>FMIENTRAS
+
+REPEAT ==> REPITA
+UNTIL  ==> SCUMPLE
+
 ///////////////////////
-Ejemplo de estructura con los anteriores
+Ejemplo FOR
 
 NUMBER t
 PARA t=1 HASTA 10 DE 2
     IMPRIMIR "Hola"
 FPARA 
+<--------------------->
 
+Ejemplo WHILE
+
+NUMBER a
+a=0
+MIENTRAS a<=2
+   IMPRIMIR "HOLA"
+a=a+1
+FMIENTRAS
+<--------------------->
+Ejemplo DO WHILE
+
+NUMBER A=0
+REPITA
+	a=a+1
+    imprimir "Prueba Do While"
+SCUMPLE a==2
+<---------------------->
 ////////////////////////
 

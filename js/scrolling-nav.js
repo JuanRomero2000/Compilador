@@ -1,7 +1,7 @@
 (function($) {
   "use strict"; // Start of use strict
 
-  // Smooth scrolling using jQuery easing
+ // Desplazamiento suave usando jQuery easing
   $('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function() {
     if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
       var target = $(this.hash);
@@ -15,12 +15,12 @@
     }
   });
 
-  // Closes responsive menu when a scroll trigger link is clicked
+// Cierra el menu sensible cuando se hace clic en un enlace de activación de desplazamiento
   $('.js-scroll-trigger').click(function() {
     $('.navbar-collapse').collapse('hide');
   });
 
-  // Activate scrollspy to add active class to navbar items on scroll
+  // Activar scrollspy para agregar la clase activa a los elementos de la barra de navegación en el desplazamiento
   $('body').scrollspy({
     target: '#mainNav',
     offset: 56

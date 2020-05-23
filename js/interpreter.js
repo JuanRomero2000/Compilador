@@ -16,9 +16,6 @@ var stack=[];
 
 var consoleOut;
 
-//Normally I'd use window.onload
-//but apparently somehow <body onload=...> overrides that even though this should be executed later and they're entirely different things
-//this is the most awful syntax and I hate it
 window.addEventListener("load",function(){
 	consoleOut=new Output($console);
 });
@@ -60,15 +57,15 @@ function stepLevel1(){
 //end program
 function stop(error){
 	if(!stopped){
-		console.log("trying to end");
+		console.log("Tratando de terminar...");
 		stopped=true;
 		window.clearInterval(interval);
 		consoleOut.print("==================== ["+currentTimeString()+"]\n");
-		console.log("error",error);
-		consoleOut.print("Program stopped\n");
+		console.log("Error",error);
+		consoleOut.print("Programa terminado\n");
 	}
 	if(error)
-		consoleOut.print("[Error] on line "+line+":\n"+error+"\n",undefined,"#FF7777");
+		consoleOut.print("[Error] en la linea "+line+":\n"+error+"\n",undefined,"#FF7777");
 }
 
 function enterBlock(into){
@@ -98,18 +95,18 @@ function callFunction(name,args){
 		if(builtins[name][args.length]){
 			return builtins[name][args.length].apply(null,args);
 		}else{
-			assert(builtins[name].any,"\""+name+"\" does not accept "+args.length+" arguments");
+			assert(builtins[name].any,"\""+name+"\" no se acepta "+args.length+" argumentos");
 			return builtins[name].any(args);
 		}
 	}else{
-		assert(functions[name] && functions[name].inputs.length===args.length,"user function not defined either");
+		assert(functions[name] && functions[name].inputs.length===args.length,"función de usuario no esta definida");
 		var parameters=functions[name].inputs;
 		variables.push(scopeFromTemplate(functions[name].variables));
 		for(var i=0;i<parameters.length;i++){
 			if(parameters[i].isRef){
 				//perhaps: <type1> REF <type2> <var>
 				//meaning that the variable must be of <type1> but the value must be <type2> (as <var> is created with a type of <type2>)
-				assert(args[i].ref,"function requires variable");
+				assert(args[i].ref,"la función requiere variable");
 				var x=parameters[i].getFrom(variables);
 				//assert(x.type!=="dynamic","Dynamic type not allowed here");
 				//assert(x.type==="unset" || x.type===args[i].ref.value.type,"Function '"+name+"' expected "+x.type+" variable as "+th(i+1)+" argument, got "+args[i].ref.type+" variable instead.");
@@ -134,7 +131,7 @@ function callFunction(name,args){
 //evaluate expression//
 ///////////////////////
 function evaluate(rpn,expectedType){
-	assert(rpn.constructor===Array,"Internal error: invalid expression");
+	assert(rpn.constructor===Array,"Error interno: expresión no valida");
 	//assert(!(unUsed && rpn.length===1 && rpn[0].type==="variable" && !rpn[0].isDec),"Variable '"+rpn[0].name+"' was used on its own. This is probably a mistake.");
 	var initialLength=stack.length;
 	console.log(rpn)
@@ -152,10 +149,10 @@ function evaluate(rpn,expectedType){
 				var array=stack.pop();
 				index.expect("number");
 				index=Math.floor(index.value);
-				assert(index>=0 && index<array.value.length,"Tried to access element "+index+" of an array with length "+array.value.length+".");
+				assert(index>=0 && index<array.value.length,"Intenta acceder al elemento"+index+" de una matriz con longitud "+array.value.length+".");
 				var x=array.value[index];
 				if(array.ref)
-					x.ref=new Variable("dynamic",array.ref.value.value[index]);
+					x.ref=new Variable("dinamico",array.ref.value.value[index]);
 				stack.push(x);
 			break;case "operator":case "function":case "unary": //I think these are all just "function" ...
 				var args=rpn[i].args;
@@ -165,7 +162,7 @@ function evaluate(rpn,expectedType){
 				for(var j=0;j<args;j++)
 					stack.pop();
 				if(!retval)
-					assert(i===rpn.length-1,"Function did not return a value and was not the last operation.");
+					assert(i===rpn.length-1,"La función no devolvio un valor y no fue la ultima operacion.");
 				stack.push(retval);
 			break;case "arrayLiteral":
 				var args=rpn[i].args;
@@ -208,7 +205,7 @@ function step(){
 		var now=current(block);
 		line=now.line;
 		switch(now.type){
-			case "WHILE":
+			case "MIENTRAS":
 				if(evaluate(now.condition).truthy())
 					jumpTo(0);
 				else
@@ -216,7 +213,7 @@ function step(){
 			break;case "DO":
 				jumpTo(0);
 				//...
-			break;case "REPEAT":
+			break;case "REPITA":
 				if(!evaluate(now.condition).truthy())
 					jumpTo(0);
 				else
@@ -224,7 +221,7 @@ function step(){
 			break;case "PARA":
 				//get variable
 				var variable;
-				assert(variable=evaluate(now.variable,"number").ref,"PARA loop needs a variable.");
+				assert(variable=evaluate(now.variable,"number").ref,"PARA, el bucle necesita una variable.");
 				//increment variable
 				if(now.step){
 					variable.value.value+=evaluate(now.step,"number").value;
@@ -254,7 +251,7 @@ function step(){
 			break;case "SI":case "SINO":case "SNSI":case "CASE":case "SWITCH":
 				leaveBlock();
 			break;default:
-				assert(false,"Internal error: '"+now.type+"' is not a valid block type.");
+				assert(false,"Error Interno: '"+now.type+"' no es un tipo de bloque válido.");
 		}
 	}
 	var now=current(block).code[current(ip)];
@@ -263,12 +260,12 @@ function step(){
 	//entering block//
 	//////////////////
 	switch(now.type){
-		case "WHILE":
+		case "MIENTRAS":
 			if(evaluate(now.condition).truthy())
 				enterBlock();
 		break;case "DO":
 			enterBlock();
-		break;case "REPEAT":case "FUNC":
+		break;case "REPITA":case "FUNC":
 			enterBlock();
 		break;case "PARA":
 			var variable;
@@ -299,7 +296,7 @@ function step(){
 			}
 			if(!now.exitName)
 				jumpTo(current(ip)-1); //idk why this is needed but I want to die now
-			assert(i,"`EXIT` Could not find `"+now.exitType+"` to exit from.");
+			assert(i,"`EXIT` No se puedo encontrar `"+now.exitType+"` para salir.");
 			killEXPR=true;
 			return true;
 			//for(var i=0;i<now.levels;i++)
@@ -310,8 +307,8 @@ function step(){
 			while(1){
 				var x=current(block);
 				if(x.type==="main"){
-					assert(false,"CONTINUE must be used inside a PARA, WHILE, REPEAT, or DO loop");
-				}else if(x.type==="PARA"||x.type==="WHILE"||x.type==="REPEAT"||x.type==="DO"){
+					assert(false,"CONTINUE debe usarse dentrode un PARA, MIENTRAS, REPITA, o DO loop");
+				}else if(x.type==="PARA"||x.type==="MIENTRAS"||x.type==="REPITA"||x.type==="DO"){
 					jumpTo(Infinity);
 					break;
 				}
@@ -321,7 +318,7 @@ function step(){
 			var printString="";
 			for(var i=0;i<now.value.length;i++){
 				var x=evaluate(now.value[i]);
-				assert(x.constructor===Value,"invalid value to print");
+				assert(x.constructor===Value,"valor invalido para imprimir");
 				printString+=(i>0?" ":"")+x.toString();
 			}
 			print(printString+"\n");
@@ -371,7 +368,7 @@ function step(){
 			}else if(ifs[ifs.length-1]===false)
 				enterBlock();
 		break;default:
-			assert(false,"unsupported instruction "+now.type);
+			assert(false,"instruccion no compatible "+now.type);
 	}
 }
 
