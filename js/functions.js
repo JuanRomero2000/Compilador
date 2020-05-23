@@ -21,17 +21,6 @@ function type(a){
 	return new Value("string",a.type);
 }
 
-/*function search(a,b){
-	var list=[];
-	switch(a.type){
-		case "array":
-			
-		break;case "string":
-			
-		break;default:
-			assert(false,"search requires array or string");
-	}
-}*/ //return list of matches!
 
 function stringSplit(a,b){
 	a.expect("string");

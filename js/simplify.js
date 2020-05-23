@@ -37,6 +37,6 @@ function simplify(rpn){
 				assert(false,"bad "+token.type);
 		}
 	}
-	assert(valStack.length<=1,"Internal error: simplification failed, constant stack not empty")
+	assert(valStack.length<=1,"Error interno: error de simplificacion, pila constante no vacia")
 	return outStack.concat(valStack);
 }

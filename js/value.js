@@ -1,5 +1,5 @@
 function Value(type,value){
-	assert(type==="number"||type==="string"||type==="array","invalid type when creating value");
+	assert(type==="number"||type==="string"||type==="array","tipo no valido al crear valor");
 	this.type=type;
 	if(value===undefined)
 		this.value=defaultValue(type);
@@ -60,7 +60,7 @@ Value.prototype.truthy=function(){
 };
 
 Value.prototype.expect=function(type,message){
-	assert(this.type===type,message || "Type mismatch. Expected "+type+", got "+this.type+" instead.");
+	assert(this.type===type,message || "Type falta de coincidencia. Esperando "+type+", got "+this.type+" en su lugar.");
 };
 
 function defaultValue(type){
@@ -72,7 +72,7 @@ function defaultValue(type){
 		case "array":
 			return [];
 		default:
-			assert(false,"invalid type ");
+			assert(false," Tipo invalido ");
 	}
 }
 
@@ -93,7 +93,7 @@ function compare(a,b){
 }
 
 function typeFromName(name){
-	assert(name.constructor===String,"internal error: no variable name");
+	assert(name.constructor===String,"error interno: sin nombre de variable");
 	switch(name.substr(-1)){
 		case '$':
 			return "string";
@@ -113,12 +113,9 @@ function last(array){
 }
 
 function expectedMessage(wanted,got){
-	return "Expected "+wanted+", got `"+got+"` instead.";
+	return "Esperando "+wanted+", Tengo `"+got+"` en su lugar.";
 }
 
 function expected(wanted,got){
-	return "Expected "+wanted+", got `"+got+"` instead.";
+	return "Esperando "+wanted+", Tengo `"+got+"` en su lugar.";
 }
-
-//var oldLog=console.log;
-//console.log=function(a,b,c,d,e,f){if(debug){oldLog(a,b,c,d,e,f)}} //go to hell
