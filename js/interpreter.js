@@ -1,5 +1,6 @@
 //=>==>==>==>==>==>==>=//
 //12-BASIC interpreter!//
+// Interprete Basico   //
 //=>==>==>==>==>==>==>=//
 
 var ast,functions;
@@ -34,7 +35,7 @@ function run(astIn){
 	stepLevel2();
 }
 
-//get array of values from list of types
+//obtener una matriz de valores de la lista de tipos
 function scopeFromTemplate(template){
 	return template.map(function(x){
 		return new Variable(x.type);
@@ -105,11 +106,9 @@ function callFunction(name,args){
 		for(var i=0;i<parameters.length;i++){
 			if(parameters[i].isRef){
 				//perhaps: <type1> REF <type2> <var>
-				//meaning that the variable must be of <type1> but the value must be <type2> (as <var> is created with a type of <type2>)
+				//lo que significa que la variable debe ser de <type1> pero el valor debe ser <type2> (como <var> se crea con un tipo de <type2>)
 				assert(args[i].ref,"la función requiere variable");
 				var x=parameters[i].getFrom(variables);
-				//assert(x.type!=="dynamic","Dynamic type not allowed here");
-				//assert(x.type==="unset" || x.type===args[i].ref.value.type,"Function '"+name+"' expected "+x.type+" variable as "+th(i+1)+" argument, got "+args[i].ref.type+" variable instead.");
 				parameters[i].getFrom(variables).set(args[i]);//type check
 				parameters[i].matchRef(variables,args[i].ref);
 			}else
@@ -132,7 +131,6 @@ function callFunction(name,args){
 ///////////////////////
 function evaluate(rpn,expectedType){
 	assert(rpn.constructor===Array,"Error interno: expresión no valida");
-	//assert(!(unUsed && rpn.length===1 && rpn[0].type==="variable" && !rpn[0].isDec),"Variable '"+rpn[0].name+"' was used on its own. This is probably a mistake.");
 	var initialLength=stack.length;
 	console.log(rpn)
 	for(var i=0;i<rpn.length;i++){
@@ -154,7 +152,7 @@ function evaluate(rpn,expectedType){
 				if(array.ref)
 					x.ref=new Variable("dinamico",array.ref.value.value[index]);
 				stack.push(x);
-			break;case "operator":case "function":case "unary": //I think these are all just "function" ...
+			break;case "operator":case "function":case "unary": //Creo que todo esto es solo "función" ...
 				var args=rpn[i].args;
 				assert(args<=stack.length,"Internal error: stack underflow");
 				var retval;
@@ -188,7 +186,6 @@ function evaluate(rpn,expectedType){
 
 function print(text){
 	consoleOut.print(text,consoleColor,consoleBG);
-	//$console.scrollTop=$console.scrollTopMax;
 }
 
 function jumpTo(pos){
@@ -222,7 +219,7 @@ function step(){
 				//get variable
 				var variable;
 				assert(variable=evaluate(now.variable,"number").ref,"PARA, el bucle necesita una variable.");
-				//increment variable
+				//incrementar variable
 				if(now.step){
 					variable.value.value+=evaluate(now.step,"number").value;
 				}else
@@ -295,14 +292,11 @@ function step(){
 				leaveBlock();
 			}
 			if(!now.exitName)
-				jumpTo(current(ip)-1); //idk why this is needed but I want to die now
+				jumpTo(current(ip)-1); 
 			assert(i,"`EXIT` No se puedo encontrar `"+now.exitType+"` para salir.");
 			killEXPR=true;
 			return true;
-			//for(var i=0;i<now.levels;i++)
-			//	leaveBlock();
-		//wow why's this part so hecking long?
-		//break;case "BREAK": //M U L T I - L E V E L   B R E A K !
+		
 		break;case "CONTINUE":
 			while(1){
 				var x=current(block);
@@ -380,7 +374,6 @@ function getNextInputValue(){
 }
 
 function assert(condition,message){
-	//console.log(condition,message)
 	if(!condition){
 		stop(message);
 		console.log(message);

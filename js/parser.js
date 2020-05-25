@@ -46,8 +46,7 @@ function parse(/*function*/nextToken){
 		var currentBlockType=last(currentBlocks).type;
 		if(endKeyword!==undefined)
 			assert(ENDS[currentBlockType]===endKeyword,"Got `"+endKeyword+"` while inside of `"+currentBlockType+"`.");
-		//else if(readToken("word"))
-			//assert(word===currentBlockType,"END was labelled `"+word+"` while inside of `"+currentBlockType+"`.");
+		
 		switch(currentBlockType){
 			case "MIENTRAS":case "DO":case "SWITCH":
 			break;case "CASE":
@@ -62,14 +61,14 @@ function parse(/*function*/nextToken){
 				var block=currentBlocks.pop();
 				block.variables=variables.pop();
 				functions[block.name]=block;
-				return; //do not run endBlock here!
+				return; 
 			break;default:
 				assert(false,"Error interno: intento finalizar el bloque desconocido `"+currentBlockType+"`.");
 		}
 		endBlock();
 	}
 	
-	//control single line IF statement
+	//controlar la instrucción IF de una sola linea
 	var ifThisLine=false,codeAfterThen;
 	
 	current.type="main";
@@ -82,13 +81,13 @@ function parse(/*function*/nextToken){
 		}catch(error){
 			if(error.name==="ParseError")
 				return error.message+"\nLine "+line+", column "+column+".";
-			//bad error!!!
+			//mal error!!!
 			else
 				throw error;
 		}
 	}while(type!=="eof");;;
 	
-	//read a "line" of code
+	//leer una "linea" de código
 	function readStatement(){
 		next();
 		if(type!="comment" && ifThisLine && type!="linebreak")
@@ -107,10 +106,10 @@ function parse(/*function*/nextToken){
 			break;case "CASE":
 				var currentType=last(currentBlocks).type;
 				if(currentType==="CASE")
-					//end previous case (no break required!)
+					
 					endBlock();
 				else
-					//This is if it's the first CASE after SWITCH
+					//Esto es si es el primer CASE despues de SWITCH
 					assert(currentType==="SWITCH","CASE Sin SWITCH");
 				//start block
 				current.type="CASE";
@@ -236,7 +235,7 @@ function parse(/*function*/nextToken){
 				current.type="expression";
 		}
 		if(current.type){
-			last(currentBlocks).code.push(current);//push to current block!
+			last(currentBlocks).code.push(current);
 			current={};
 		}
 	}
@@ -253,7 +252,7 @@ function parse(/*function*/nextToken){
 		return false;
 	}
 	
-	//Try to read a specific token
+	// Intenta leer un token especifico
 	function readToken(wantedType){
 		next();
 		if(type===wantedType){
@@ -264,8 +263,8 @@ function parse(/*function*/nextToken){
 		return false;
 	}
 	
-	//Read list
-	//reader: function to read item (readExpression etc.)
+	//Leer lista
+	// lector: función para leer el elemento (readExpression etc.)
 	function readList(reader){
 		var ret=[];
 		var x=reader();
@@ -314,7 +313,7 @@ function parse(/*function*/nextToken){
 	}
 	
 	//read normal expression
-	//SHould return RPN list
+	//Debería devolver la lista RPN
 	function readExpression(){
 		operatorStack=[];
 		outputStack=[];
@@ -326,24 +325,23 @@ function parse(/*function*/nextToken){
 	
 	function prec(token){
 		if(token.type==="unary" || token.type==="comma")
-			return Infinity; //yay;
+			return Infinity; 
 		assert(builtins[token.name].precedence!==undefined,"Error interno: no se pudo obtener la prioridad del operador para `"+token.type+"`"+token.name+"`.")
 		return builtins[token.name].precedence;
 	}
 	
-	//I should... um
 	function left(token){
 		return 0;
 	}
 	
 	function pushToken(token){
 		switch(token.type){
-			//values are pushed to the output directly
+			//los valores se envían directamente a la salida
 			case "number":case "string":
 				outputStack.push(new Value(token.type,token.value));
 			//variables too
-			//functions, the array literal operator, and index operator, are all pushed AFTER their arguments (FUNC(1,2,3) -> 1,2,3,FUNC) so they can also be output right away
-			break;case "variable":case "function":case "arrayLiteral":case "index": //see, functions are actually pushed AFTER their arguments, so we can just send them directly to the output! :D
+			//Las funciones, el operador literal de matriz y el operador de índice, se presionan DESPUES de sus argumentos (FUNC (1,2,3) -> 1,2,3, FUNC) para que tambien se puedan generar de inmediato
+			break;case "variable":case "function":case "arrayLiteral":case "index": //mira, las funciones se envían DESPUES de sus argumentos, ¡asI que podemos enviarlas directamente a la salida! 
 				outputStack.push(token);
 			break;case "operator":case "unary":
 				while(operatorStack.length){
@@ -384,7 +382,7 @@ function parse(/*function*/nextToken){
 	function readExpression2(){
 		next();
 		switch(type){
-			//function or variable
+			//function o variable
 			case "word":
 				var name=word;
 				//function
@@ -456,12 +454,12 @@ function parse(/*function*/nextToken){
 			var x=readList2(readExpression2);
 			assert(readToken(")"),expectedMessage("`)` despues de la llamada a la funcion",word));
 			pushToken({type:")"});
-			pushToken({type:"function",name:name,args:x.length+(extraLength||0)}); //optimize: replace name with reference to function
+			pushToken({type:"function",name:name,args:x.length+(extraLength||0)}); //optimizar: reemplazar nombre con referencia a la función
 			return true;
 		}
 	}
 	
-	//throw error with message if condition is false
+	// arrojar error con mensaje si la condicion es falsa
 	function assert(condition,message){
 		if(!condition){
 			console.log(message);
@@ -472,7 +470,7 @@ function parse(/*function*/nextToken){
 	}
 	
 	function next(){
-		//assert(readNext===false||readNext===true,"invalid readnext?");
+		
 		if(readNext){
 			var items=nextToken();
 			type=items.type;
@@ -483,7 +481,7 @@ function parse(/*function*/nextToken){
 			readNext=true;
 	}
 	
-	//handle single line IF blocks at the end of the program (temporary fix)
+	//manejar bloques IF de una sola línea al final del programa (arreglo temporal)
 	if(ifThisLine){
 		ifThisLine=false;
 		if(codeAfterThen){

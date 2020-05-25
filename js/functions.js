@@ -104,7 +104,6 @@ function mid1(a,b){
 	a.expect("string");
 	b.expect("number");
 	var start=b.value;
-	//assert(start>=0,"domain error mids "+start);
 	return new Value("string",a.value.charAt(start));
 }
 
@@ -155,7 +154,6 @@ function arrayRemove(array,position){
 	position.expect("number");
 	position=position.value|0;
 	return (array.variable.value[position]);
-	//array.variable=new Value(array.variable.value.splice(position,1));
 }
 
 function arrayReverse(a){
@@ -186,7 +184,7 @@ function sortCompare(a, b) {
   if (a>b) {
     return 1;
   }
-  // a must be equal to b (WRONG)
+  // a debe ser igual a b (INCORRECTO)
   return 0;
 }
 
@@ -205,7 +203,7 @@ function character(a){
 	return new Value("string",String.fromCharCode(a.value));
 }
 
-//this should be more strict!
+
 function value(a){
 	a.expect("string");
 	return new Value("number",parseFloat(a.value)||0);
@@ -219,7 +217,7 @@ function inputNumber(){
 	return new Value("number",parseFloat(getNextInputValue())||0);
 }
 
-//this should be more strict!
+
 function valueBase(a,b){
 	a.expect("string");
 	b.expect("number");
@@ -229,7 +227,7 @@ function valueBase(a,b){
 		return new Value("number",parseInt(a.value,b.value)||0);
 }
 
-//this should be more strict!
+
 function string(a){
 	a.expect("number");
 	return new Value("string",a.toString());
@@ -240,7 +238,6 @@ function ceil(a){
 	return new Value("number",Math.ceil(a.value));
 }
 
-//this should be more strict!
 function paddedString(a,b){
 	a.expect("number");
 	b.expect("number");

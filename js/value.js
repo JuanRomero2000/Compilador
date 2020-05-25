@@ -4,12 +4,11 @@ function Value(type,value){
 	if(value===undefined)
 		this.value=defaultValue(type);
 	else{
-		//	value=parseFloat("0"+value)||0;
 		this.value=value;
 	}
 }
 
-Value.prototype.copy=function(){ // DEEPEST COPY
+Value.prototype.copy=function(){ // Copia mas profunda
 	if(this.type==="array"){
 		var copy=[];
 		for(var i=0;i<this.value.length;i++)

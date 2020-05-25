@@ -38,16 +38,15 @@ function tokenize(code){
 	function pushWord(){
 		prev=i;
 		
-		var upper=getWord().toUpperCase(); //optimize by only getting uppercase if word is 5 chars or less
-		
+		var upper=getWord().toUpperCase(); //optimizado solo en mayusculas si la palabra es de 5 caracteres o menos
 		var type;
-		//bitwise not
+		//bit a bit no
 		if(upper==="NOT")
 			type="unary";
-		//word operators
+		//Operadores de palabras
 		else if(upper==="AND"||upper==="OR"||upper==="XOR")
 			type="operator";
-		//keyword number
+		//numero de palabra clave
 		else if(upper==="TRUE"){
 			type="number";
 			upper=1;
@@ -57,10 +56,10 @@ function tokenize(code){
 		}else if(upper==="FALSE"){
 			type="number";
 			upper=0;
-		//other keyword
+		//otra palabra clave
 		}else if(KEYWORDS.indexOf(upper)!==-1)
 			type=upper;
-		//not a keyword
+		//no es una palabra clave
 		else
 			type="word";
 		
@@ -74,17 +73,17 @@ function tokenize(code){
 	
 	next();
 	return function(){
-		//read whitespace
+		//leer espacios en blanco
 		while(c===' '||c==='\t')
 			next();
-		//if this is the end, push a special ending token
+		//si este es el final, empuje un token final especial
 		if(c==='')
 			return push("eof");
-		//store the start of the non-whitespace
+		//almacenar el inicio del espacio no en blanco
 		currentLine=line;
 		currentColumn=column;
 		whitespace=i;
-		//"word" (keywords, functions, variables)
+		//"palabra" (palabras clave, funciones, variables)
 		if(isAlpha||c==='_'){
 			next();
 			while(isAlpha||isDigit||c==='_')
@@ -131,14 +130,14 @@ function tokenize(code){
 					stringValue+=c;
 			}
 			return push("string",stringValue);
-		//comments
+		//commentarios
 		break;case '\'':
 			next();
 			while(c && c!=='\n' && c!=='\r')
 				next();
 			next();
 			return push("linebreak","");
-		//constants
+		//constantes
 		break;case '#':
 			next();
 			if(isAlpha||isDigit||c==='_'){

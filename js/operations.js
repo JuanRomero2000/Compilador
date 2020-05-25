@@ -1,4 +1,3 @@
-//array remove: start,[length]
 var builtins={
 	"!":  {1:logicalNot},
 	"NOT":{1:logicalNot},
@@ -58,26 +57,20 @@ var builtins={
 	INPUT$:  {0:input},
 	REPLACE$:{3:replace},
 	TRIMEND$:{2:cutright},
-	//GET:     {2:arrayGet},
 	POP:     {1:arrayPop},
 	REVERSE:{1:reverse},
 	SORT:   {1:sort},
 	MILLISECOND:{0:millisec,noSimplify:true},
-	//ARRAY:{2:filledArray},
 	ABS:{1:absoluteValue},
 	SPLIT:{2:stringSplit},
 	JOIN:{2:arrayJoin},
 	TYPE:{1:type},
 	CLS:  {0:clearScreen,noSimplify:true},
-	//VSYNC:{0:vsync},
-	//PRINT:{any:printList},
-	//SET:  {3:arraySet},
 	PUSH: {2:arrayPush}, //any
 	OUTPUT:{any:outputList,noSimplify:true},
 	STOP:{0:endProgram,noSimplify:true},
 	REMOVE:{2:arrayRemove1,3:arrayRemove},
 	WITHOUT:{2:without},
-	//GET:{2:arrayWith},
 	COLOR:{1:color,noSimplify:true},
 	CEIL:{1:ceil},
 	FLOOR:{1:ceil},
@@ -133,7 +126,6 @@ function assign(a,b){
 		b.expect("array");
 		assert(b.length===a.length,"matrices de diferente longitud");
 		for(var i=0;i<a.value.length;i++){
-			//assert(a.value[i].ref,"During variable list assignment, expected variable but got "+a.value[i].type+". Perhaps you didn't mean to use =?");
 			assign(a.value[i],b.value[i]);
 		}
 	}
@@ -176,7 +168,7 @@ function multiply(a,b){
 			assert(b.value>=0,"valor negativo de repeticion");
 			var result=[];
 			for(var i=0;i<b.value;i++)
-				result=result.concat(a.copy().value); //yeah copy that shit
+				result=result.concat(a.copy().value); 
 			return new Value("array",result);
 	}
 }

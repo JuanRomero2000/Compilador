@@ -24,7 +24,7 @@ function escapeHTMLAttribute(text){
 	return text.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
 }
 
-//get time in format HH:MM:SS AM/PM
+//get time en formato HH:MM:SS AM/PM
 function currentTimeString(){
 	return new Date().toLocaleString("en-US",{hour:"numeric",minute:"numeric",hour12:true,second:"numeric"});
 }
