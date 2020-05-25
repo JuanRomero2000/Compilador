@@ -1,5 +1,5 @@
 function Value(type,value){
-	assert(type==="number"||type==="string"||type==="array","tipo no valido al crear valor");
+	assert(type==="numero"||type==="string"||type==="array","tipo no valido al crear valor");
 	this.type=type;
 	if(value===undefined)
 		this.value=defaultValue(type);
@@ -34,7 +34,7 @@ Value.prototype.isIn=function(list){
 
 Value.prototype.toString=function(base){
 	switch(this.type){
-		case "number":
+		case "numero":
 			return this.value.toString(base).toUpperCase();
 		case "string":
 			return this.value;
@@ -47,7 +47,7 @@ Value.prototype.toString=function(base){
 
 Value.prototype.truthy=function(){
 	switch(this.type){
-		case "number":
+		case "numero":
 			return this.value!==0;
 		case "string":
 			return this.value!=="";
@@ -64,7 +64,7 @@ Value.prototype.expect=function(type,message){
 
 function defaultValue(type){
 	switch(type){
-		case "number":
+		case "numero":
 			return 0;
 		case "string":
 			return "";
@@ -79,7 +79,7 @@ function compare(a,b){
 	if(a.type!==b.type)
 		return false;
 	switch(a.type){
-		case "number":case "string":
+		case "numero":case "string":
 			return a.value===b.value;
 		break;case "array":
 			if(a.value.length!=b.value.length)
@@ -99,7 +99,7 @@ function typeFromName(name){
 		case '#':
 			return "array";
 		default:
-			return "number";
+			return "numero";
 	}
 }
 

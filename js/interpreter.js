@@ -140,12 +140,12 @@ function evaluate(rpn,expectedType){
 				var x=ref.value.copy();
 				x.ref=ref;
 				stack.push(x);
-			break;case "number":case "string":case "array":
+			break;case "numero":case "string":case "array":
 				stack.push(rpn[i]);
 			break;case "index":
 				var index=stack.pop();
 				var array=stack.pop();
-				index.expect("number");
+				index.expect("numero");
 				index=Math.floor(index.value);
 				assert(index>=0 && index<array.value.length,"Intenta acceder al elemento"+index+" de una matriz con longitud "+array.value.length+".");
 				var x=array.value[index];
@@ -218,17 +218,17 @@ function step(){
 			break;case "PARA":
 				//get variable
 				var variable;
-				assert(variable=evaluate(now.variable,"number").ref,"PARA, el bucle necesita una variable.");
+				assert(variable=evaluate(now.variable,"numero").ref,"PARA, el bucle necesita una variable.");
 				//incrementar variable
 				if(now.step){
-					variable.value.value+=evaluate(now.step,"number").value;
+					variable.value.value+=evaluate(now.step,"numero").value;
 				}else
 					variable.value.value++;
 				//check if past end
 				if(now.array){
 					var inRange=variable.value.value<evaluate(now.array,"array").value.length;
 				}else{
-					var value=evaluate(now.end,"number");
+					var value=evaluate(now.end,"numero");
 					if(now.open)
 						var inRange=variable.value.value<value.value;
 					else
@@ -266,16 +266,16 @@ function step(){
 			enterBlock();
 		break;case "PARA":
 			var variable;
-			assert(variable=evaluate(now.variable,"number").ref,"PARA loop needs a variable.");
+			assert(variable=evaluate(now.variable,"numero").ref,"PARA loop needs a variable.");
 			if(now.start)
-				variable.value.value=evaluate(now.start,"number").value;
+				variable.value.value=evaluate(now.start,"numero").value;
 			else
 				variable.value.value=0;
 			//check if past end
 			if(now.array){
 				var inRange=evaluate(now.array,"array").value.length>0;
 			}else{
-				var value=evaluate(now.end,"number");
+				var value=evaluate(now.end,"numero");
 				if(now.open)
 					var inRange=variable.value.value<value.value;
 				else

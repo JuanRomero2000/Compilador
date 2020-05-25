@@ -3,7 +3,7 @@
 
 
 
-var KEYWORDS=["SWITCH","CASE","AS","ENDSWITCH", "EXIT","END", "SI","ENTONCES","SINO","SNSI","FINSI", "FUNC","RETURN","ENDFUNC", "PARA","FPARA", "REPITA","SCUMPLE", "CONTINUE","IMPRIMIR", "MIENTRAS","FMIENTRAS", "DO","LOOP", "REF", "HASTA", "DE","IN"];
+var KEYWORDS=["SWITCH","CASE","AS","ENDSWITCH", "EXIT","END", "SI","ENTONCES","SINO","SNSI","FSI", "FUNC","RETURN","ENDFUNC", "PARA","FPARA", "REPITA","SICUMPLE", "CONTINUE","IMPRIMIR", "MIENTRAS","FMIENTRAS", "DO","LOOP", "REF", "HASTA", "DE","IN"];
 // CHECK <condicion>, "error"
 var constants={"#PI":Math.PI,"#VERSION":1.500};
 // sistema de versión:
@@ -48,13 +48,13 @@ function tokenize(code){
 			type="operator";
 		//numero de palabra clave
 		else if(upper==="TRUE"){
-			type="number";
+			type="numero";
 			upper=1;
 		}else if(upper==="INFINITY"){
-			type="number";
+			type="numero";
 			upper=Infinity;
 		}else if(upper==="FALSE"){
-			type="number";
+			type="numero";
 			upper=0;
 		//otra palabra clave
 		}else if(KEYWORDS.indexOf(upper)!==-1)
@@ -91,7 +91,7 @@ function tokenize(code){
 			if(c==='$'||c==='#'||c==='@')
 				next();
 			return pushWord();
-		//numbers
+		//numeros
 		}else if(isDigit){
 			do
 				next();
@@ -102,14 +102,14 @@ function tokenize(code){
 				while(isDigit)
 					next();
 			}
-			return push("number",parseFloat(getWord()));
+			return push("numero",parseFloat(getWord()));
 		}else if(c==='.'){
 			next();
 			if(isDigit){
 				do
 					next();
 				while(isDigit);;;
-				return push("number",parseFloat(getWord()));
+				return push("numero",parseFloat(getWord()));
 			}
 			return push("dot");
 		}else switch(c){
@@ -147,7 +147,7 @@ function tokenize(code){
 				var constName=getWord().toUpperCase();
 				var constValue=constants[constName];
 				if(constValue!==undefined)
-					return push("number",constValue);
+					return push("numero",constValue);
 				else
 					return push("error");
 			}

@@ -1,26 +1,37 @@
+///////////////////////////////
+
+SE PUEDE ESCRIBIR TANTO EN MAYUSCULA COMO EN MINISCULA
+NO USA CORCHETES, PARENTESIS NI LLAVES.
+
 IF      ==> SI 
 THEN    ==> ENTONCES
-ENDIF   ==> FINSI
+ENDIF   ==> FSI
 PRINT   ==> IMPRIMIR
 ELSE    ==> SINO
 ELSEIF  ==> SNSI
 
+/////////////////////////
+*DECLARACION DE VARIABLES*
+
+STRING
+NUMBER ==> NUMERO
+
 ////////////////////////
 Ejemplo de estructura con los anteriores
 
-NUMBER a
-NUMBER Z
-NUMBER b
+NUMERO a
+NUMERO Z
+NUMERO b
 a=6
 b=5
 Z=6
+
 SI a==b ENTONCES
-
-IMPRIMIR "hOLA"
+    IMPRIMIR "HOLA"
 SNSI a==z ENTONCES
-IMPRIMIR "no son iguales"
-
+    IMPRIMIR "no son iguales"
 FINSI
+
 ///////////////////////////
 
 **CICLOS**
@@ -33,12 +44,12 @@ WHILE  ==>MIENTRAS
 WEND   ==>FMIENTRAS
 
 REPEAT ==> REPITA
-UNTIL  ==> SCUMPLE
+UNTIL  ==> SICUMPLE
 
 ///////////////////////
 Ejemplo FOR
 
-NUMBER t
+NUMERO t
 PARA t=1 HASTA 10 DE 2
     IMPRIMIR "Hola"
 FPARA 
@@ -46,20 +57,20 @@ FPARA
 
 Ejemplo WHILE
 
-NUMBER a
+NUMERO a
 a=0
 MIENTRAS a<=2
    IMPRIMIR "HOLA"
-a=a+1
+   a=a+1
 FMIENTRAS
 <--------------------->
 Ejemplo DO WHILE
 
-NUMBER A=0
+NUMERO A=0
 REPITA
 	a=a+1
     imprimir "Prueba Do While"
-SCUMPLE a==2
+SICUMPLE a==2
 <---------------------->
 ////////////////////////
 

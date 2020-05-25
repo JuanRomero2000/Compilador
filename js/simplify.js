@@ -7,7 +7,7 @@ function simplify(rpn){
 	for(var i=0;i<rpn.length;i++){
 		var token=rpn[i];
 		switch(token.type){
-			case "number":case "string":
+			case "numero":case "string":
 				valStack.push(token);
 			break;case "variable":case "index":
 				Array.prototype.push.apply(outStack,valStack);

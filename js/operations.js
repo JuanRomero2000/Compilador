@@ -16,7 +16,7 @@ var builtins={
 	">>": {2:rightShift,precedence:10},
 	
 	"HASTA": {2:range,3:rangeStep,precedence:9},
-	"SCUMPLE": {2:openRange,precedence:9},
+	"SICUMPLE": {2:openRange,precedence:9},
 	
 	">":  {2:greaterThan,precedence:8},
 	"<":  {2:lessThan,precedence:8},
@@ -41,7 +41,7 @@ var builtins={
 	CHR$:    {1:character},
 	LEN:     {1:length},
 	LENGTH:  {1:length},
-	NUMBER:  {1:value,2:valueBase},
+	NUMERO:  {1:value,2:valueBase},
 	//STR$:  {1:string,2:paddedString,3:paddedStringBase},
 	STRING$: {1:string,2:paddedString,3:paddedStringBase},
 	RANDOM:  {1:random1,2:random2,noSimplify:true},
@@ -53,7 +53,7 @@ var builtins={
 	UPPER$:  {1:ucase},
 	LOWER$:  {1:lcase},
 	RIGHT$:  {2:right,3:right2},
-	INPUT:   {0:inputNumber},
+	INPUT:   {0:inputNumero},
 	INPUT$:  {0:input},
 	REPLACE$:{3:replace},
 	TRIMEND$:{2:cutright},
@@ -82,34 +82,34 @@ function endProgram(){
 }
 
 function range(a,b){
-	a.expect("number");
-	b.expect("number");
+	a.expect("numero");
+	b.expect("numero");
 	var array=[];
 	for(var i=a.value;i<=b.value;i++)
-		array.push(new Value("number",i));
+		array.push(new Value("numero",i));
 	return new Value("array",array);
 }
 
 function rangeStep(a,b,c){
-	a.expect("number");
-	b.expect("number");
-	c.expect("number");
+	a.expect("numero");
+	b.expect("numero");
+	c.expect("numero");
 	var array=[];
 	for(var i=a.value;i<=b.value;i+=c.value)
-		array.push(new Value("number",i));
+		array.push(new Value("numero",i));
 	return new Value("array",array);
 }
 
 function openRange(a,b){
 	var array=[];
 	for(var i=a.value;i<b.value;i++)
-		array.push(new Value("number",i));
+		array.push(new Value("numero",i));
 	return new Value("array",array);
 }
 
 function step(a,b){
 	a.expect("array");
-	b.expect("number");
+	b.expect("numero");
 	assert(b.value>0,"el valor del paso debe ser al menos mayor que 0");
 	var array=[];
 	for(i=0;i<a.value.length;i+=b.value)
@@ -134,9 +134,9 @@ function assign(a,b){
 
 function add(a,b){
 	switch(a.type){
-		case "number":
-			b.expect("number");
-			return new Value("number",a.value+b.value);
+		case "numero":
+			b.expect("numero");
+			return new Value("numero",a.value+b.value);
 		break;case "string":
 			return new Value("string",a.value+b.value.toString());
 		break;case "array":
@@ -146,21 +146,21 @@ function add(a,b){
 }
 
 function subtract(a,b){
-	a.expect("number");
-	b.expect("number");
-	return new Value("number",a.value-b.value);
+	a.expect("numero");
+	b.expect("numero");
+	return new Value("numero",a.value-b.value);
 }
 
 function negate(a){
-	a.expect("number");
-	return new Value("number",-a.value);
+	a.expect("numero");
+	return new Value("numero",-a.value);
 }
 
 function multiply(a,b){
-	b.expect("number");
+	b.expect("numero");
 	switch(a.type){
-		case "number":
-			return new Value("number",a.value*b.value);
+		case "numero":
+			return new Value("numero",a.value*b.value);
 		break;case "string":
 			assert(b.value>=0,"valor negativo de repeticion");
 			return new Value("string",a.value.repeat(b.value));
@@ -174,88 +174,88 @@ function multiply(a,b){
 }
 
 function divide(a,b){
-	a.expect("number");
-	b.expect("number");
+	a.expect("numero");
+	b.expect("numero");
 	assert(b.value!==0,"Intente dividir '"+a.value+"' por cero.");
-	return new Value("number",a.value/b.value);
+	return new Value("numero",a.value/b.value);
 }
 
 //floor division
 function div(a,b){
-	a.expect("number");
-	b.expect("number");
+	a.expect("numero");
+	b.expect("numero");
 	assert(b.value!==0,"Intente dividir '"+a.value+"' por cero.");
-	return new Value("number",Math.floor(a.value/b.value));
+	return new Value("numero",Math.floor(a.value/b.value));
 }
 
 //mod
 function mod(a,b){
-	a.expect("number");
-	a.expect("number");
+	a.expect("numero");
+	a.expect("numero");
 	assert(b.value!==0,"Intente dividir '"+a.value+"' por cero.");
-	return new Value("number",a.value-Math.floor(a.value/b.value)*b.value);
+	return new Value("numero",a.value-Math.floor(a.value/b.value)*b.value);
 }
 
 function greaterThan(a,b){
 	a.expect(b.type);
 	switch(b.type){
-		case "number":case "string":
-			return new Value("number",a.value>b.value?1:0);
+		case "numero":case "string":
+			return new Value("numero",a.value>b.value?1:0);
 		break;case "array":
-			return new Value("number",a.value.length>b.value.length?1:0);
+			return new Value("numero",a.value.length>b.value.length?1:0);
 	}
 }
 
 function exponent(a,b){
-	a.expect("number");
-	b.expect("number");
-	return new Value("number",Math.pow(a.value,b.value));
+	a.expect("numero");
+	b.expect("numero");
+	return new Value("numero",Math.pow(a.value,b.value));
 }
 
 function lessThan(a,b){
 	a.expect(b.type);
 	switch(b.type){
-		case "number":case "string":
-			return new Value("number",a.value<b.value?1:0);
+		case "numero":case "string":
+			return new Value("numero",a.value<b.value?1:0);
 		break;case "array":
-			return new Value("number",a.value.length<b.value.length?1:0);
+			return new Value("numero",a.value.length<b.value.length?1:0);
 	}
 }
 
 function lessOrEqual(a,b){
 	a.expect(b.type);
 	switch(b.type){
-		case "number":case "string":
-			return new Value("number",a.value<=b.value?1:0);
+		case "numero":case "string":
+			return new Value("numero",a.value<=b.value?1:0);
 		break;case "array":
-			return new Value("number",a.value.length<=b.value.length?1:0);
+			return new Value("numero",a.value.length<=b.value.length?1:0);
 	}
 }
 
 function greaterOrEqual(a,b){
 	a.expect(b.type);
 	switch(b.type){
-		case "number":case "string":
-			return new Value("number",a.value>=b.value?1:0);
+		case "numero":case "string":
+			return new Value("numero",a.value>=b.value?1:0);
 		break;case "array":
-			return new Value("number",a.value.length>=b.value.length?1:0);
+			return new Value("numero",a.value.length>=b.value.length?1:0);
 	}
 }
 
 function equal(a,b){
-	return new Value("number",compare(a,b)?1:0);
+	return new Value("numero",compare(a,b)?1:0);
 }
 
 function notEqual(a,b){
-	return new Value("number",!compare(a,b)?1:0);
+	return new Value("numero",!compare(a,b)?1:0);
 }
 
 function logicalAnd(a,b){
-	return new Value("number",(a.truthy() && b.truthy())?1:0);
+	return new Value("numero",(a.truthy() && b.truthy())?1:0);
 }
 
 function logicalXor(a,b){
-	return new Value("number",(a.truthy() != b.truthy())?1:0);
+	return new Value("numero",(a.truthy() != b.truthy())?1:0);
 }
 
 function logicalOr(a,b){
@@ -266,18 +266,18 @@ function logicalOr(a,b){
 }
 
 function logicalNot(a){
-	return new Value("number",a.truthy()?0:1);
+	return new Value("numero",a.truthy()?0:1);
 }
 
 function bitwiseNot(a){
-	a.expect("number");
-	return new Value("number",~a.value);
+	a.expect("numero");
+	return new Value("numero",~a.value);
 }
 
 function bitwiseAnd(a,b){
 	b.expect(a.type);
-	if(a.type==="number")
-		return new Value("number",a.value & b.value);
+	if(a.type==="numero")
+		return new Value("numero",a.value & b.value);
 	a.expect("array");
 	var list=[];
 	for(var i=0;i<a.value.length;i++)
@@ -288,8 +288,8 @@ function bitwiseAnd(a,b){
 
 function bitwiseOr(a,b){
 	b.expect(a.type);
-	if(a.type==="number")
-		return new Value("number",a.value | b.value);
+	if(a.type==="numero")
+		return new Value("numero",a.value | b.value);
 	a.expect("array");
 	var list=[];
 	for(var i=0;i<a.value.length;i++)
@@ -302,19 +302,19 @@ function bitwiseOr(a,b){
 }
 
 function bitwiseXor(a,b){
-	a.expect("number");
-	b.expect("number");
-	return new Value("number",a.value ^ b.value);
+	a.expect("numero");
+	b.expect("numero");
+	return new Value("numero",a.value ^ b.value);
 }
 
 function leftShift(a,b){
-	a.expect("number");
-	b.expect("number");
-	return new Value("number",a.value<<b.value);
+	a.expect("numero");
+	b.expect("numero");
+	return new Value("numero",a.value<<b.value);
 }
 
 function rightShift(a,b){
-	a.expect("number");
-	b.expect("number");
-	return new Value("number",a.value>>b.value);
+	a.expect("numero");
+	b.expect("numero");
+	return new Value("numero",a.value>>b.value);
 }

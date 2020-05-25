@@ -18,12 +18,12 @@ function parse(/*function*/nextToken){
 	var ENDS={
 		SWITCH:"ENDSWITCH",
 		CASE:"ENDSWITCH",
-		REPITA:"SCUMPLE",
+		REPITA:"SICUMPLE",
 		MIENTRAS:"FMIENTRAS",
 		DO:"LOOP",
-		SI:"FINSI",
-		SNSI:"FINSI",
-		SINO:"FINSI",
+		SI:"FSI",
+		SNSI:"FSI",
+		SINO:"FSI",
 		FUNC:"ENDFUNC",
 		PARA:"FPARA",
 		FORIN:"FPARA"
@@ -52,7 +52,7 @@ function parse(/*function*/nextToken){
 			break;case "CASE":
 				endBlock();
 			break;case "REPITA":
-				assert(last(currentBlocks).condition=readExpression(),expected("condition for SCUMPLE",word));
+				assert(last(currentBlocks).condition=readExpression(),expected("condition for SICUMPLE",word));
 			break;case "SI": case "SNSI": case "SINO":
 				ifThisLine=false;
 			break;case "PARA": case "FORIN":
@@ -96,7 +96,7 @@ function parse(/*function*/nextToken){
 		switch(type){
 			case "END":
 				autoEndBlock();
-			break;case "ENDSWITCH":case "SCUMPLE":case "FINSI":case "FPARA":case "FMIENTRAS":case "ENDFUNC":case "LOOP":
+			break;case "ENDSWITCH":case "SICUMPLE":case "FSI":case "FPARA":case "FMIENTRAS":case "ENDFUNC":case "LOOP":
 				autoEndBlock(type);
 			//SWITCH/CASE/ENDSWITCH
 			break;case "SWITCH":
@@ -166,7 +166,7 @@ function parse(/*function*/nextToken){
 					current.start=readExpression();
 					noTo=false;
 					if(!readToken("HASTA")){
-						assert(readToken("SCUMPLE"),expected("`HASTA` in PARA",word));
+						assert(readToken("SICUMPLE"),expected("`HASTA` in PARA",word));
 						current.open=true;
 					}
 					current.end=readExpression();
@@ -285,8 +285,9 @@ function parse(/*function*/nextToken){
 				if(variables[i][j].name===name)
 					return new IndirectVariableReference(i,j,name);
 		consoleBG="yellow";
-		print("[Advertencia] Variable `"+name+"` No ha sido declarada. Usa <type> <name> (ej: 'NUMBER a=4').\n");
+		print("[Advertencia] Variable `"+name+"` No ha sido declarada. Usa <tipo> <nombre> (ej: 'NUMERO a = 4').\n");
 		consoleBG=undefined;
+		exit();
 		return createVar(name,"unset");
 	}
 	
@@ -337,7 +338,7 @@ function parse(/*function*/nextToken){
 	function pushToken(token){
 		switch(token.type){
 			//los valores se envían directamente a la salida
-			case "number":case "string":
+			case "numero":case "string":
 				outputStack.push(new Value(token.type,token.value));
 			//variables too
 			//Las funciones, el operador literal de matriz y el operador de índice, se presionan DESPUES de sus argumentos (FUNC (1,2,3) -> 1,2,3, FUNC) para que tambien se puedan generar de inmediato
@@ -372,7 +373,7 @@ function parse(/*function*/nextToken){
 	
 	function vari(name){
 		name = name || word;
-		if((name==="STRING"||name==="NUMBER"||name==="ARRAY"||name==="DYNAMIC")&&readToken("word"))
+		if((name==="STRING"||name==="NUMERO"||name==="ARRAY"||name==="DYNAMIC")&&readToken("word"))
 			return createVar(word,name.toLowerCase());
 		if(name==="VAR"&&readToken("word"))
 			return createVar(word,"unset");
@@ -388,9 +389,9 @@ function parse(/*function*/nextToken){
 				//function
 				if(!readFunction())
 					pushToken({type:"variable",variable:vari(name),name:name});
-			//number literals
-			break;case "number":
-				pushToken({type:"number",value:word});
+			//numero literals
+			break;case "numero":
+				pushToken({type:"numero",value:word});
 			//string/label
 			break;case "string":
 				pushToken({type:"string",value:word});

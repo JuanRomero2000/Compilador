@@ -23,7 +23,7 @@ function Variable(type,value){
 	else
 		switch(this.type){
 			case "dynamic":case "unset":
-				this.value=new Value("number");
+				this.value=new Value("numero");
 			break;default:
 				this.value=new Value(this.type);
 		}

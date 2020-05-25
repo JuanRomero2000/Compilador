@@ -54,16 +54,21 @@
 				<textarea
 					id="$code"
 					cols="80"
-					rows="6"
+					rows="8"
 					onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0,s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"
 					autocomplete="off"
 					autocorrect="off"
 					autocapitalize="off"
 					spellcheck="false"
 				>
-para i=1 hasta 10
-    imprimir I
-fpara</textarea
+numero a=1
+si a==1 entonces
+	para numero i=0 hasta 10 de 2
+		imprimir i
+	fpara
+sino
+	imprimir "no es correcto"
+fsi</textarea
 				>
 				<br />
 				<button
@@ -109,11 +114,12 @@ fpara</textarea
 				<!-- Footer Location-->
 				<div class="col-lg-4 mb-5 mb-lg-0">
 				  <h4 class="text-uppercase mb-4">SOBRE EL PROYECTO</h4>
-				  <p class="lead mb-0">
+				  <p id="acerca" class="lead mb-0">
 					Lenguaje de Programación en Español Simple (LPes) es un lenguaje que
 					nació como un proyecto universitario y que fue pensado para todos y en 
-					especial para las personas hispanohablantes por lo cual es muy sencillo 
-					y usa palabras en español.
+					especial para las personas hispanohablantes ya que usa palabas en español.
+					Es un lenguaje muy sencillo inspirado en pseudocodigo que no distingue entre
+					mayusculas y minusculas para que tengas la libertad de escribir como quieras.
 				  </p>
 				</div>
 	
@@ -130,7 +136,7 @@ fpara</textarea
 				  <p class="lead mb-0 "></p>
 				  <p class="lead mb-0 ">Santiago Mendoza</p>
 				  <p class="lead mb-0 mt-3">Juan Romero</p>
-				  <p class="lead mb-0 mt-3">Cristian Perez</p>
+				  <p class="lead mb-0 mt-3">Cristhyan Pérez</p>
 				  <p class="lead mb-0 mt-3">Cristian Mercado</p>
 				</div>
 			  </div>
@@ -139,7 +145,7 @@ fpara</textarea
 		<footer class="py-5 bg-dark">
 			<div class="container">
 				<p class="m-0 text-center text-white">
-					Copyright &copy; Your Website 2019
+					Copyright &copy; Your Website 2020
 				</p>
 			</div>
 			<!-- /.container -->
